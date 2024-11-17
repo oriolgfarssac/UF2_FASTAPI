@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -20,9 +20,17 @@ items = [
     {"id": 1, "name": "Item 1", "description": "Desc 1", "price": 10.5, "is_available": True},
 ]
 
+#@app.get("/items/{item_id}")
+#def read_item(item_id: int):
+#    for item in items:
+#        if item["id"] == item_id:
+#            return item
+#        return "404 Item not found"
+
+
 @app.get("/items/{item_id}")
 def read_item(item_id: int):
     for item in items:
         if item["id"] == item_id:
             return item
-        return "404 Item not found"
+    raise HTTPException(status_code=404, detail="Item not found")
