@@ -2,7 +2,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/{item_id}")
-async def get_method(item_id: int):
+@app.get("/items/{item_id}")
+def read_item(item_id: int):
     return {"item_id": item_id}
-
