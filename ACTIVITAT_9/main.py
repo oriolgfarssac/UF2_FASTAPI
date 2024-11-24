@@ -1,22 +1,9 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from crud import read_table
+from schema import UserDefault
 
 app = FastAPI()
 
-class SubItem(BaseModel):
-    sub_name: str
-    sub_description: str = None
-    sub_price: float
-
-class Item(BaseModel):
-    name: str
-    description: str | None = None
-    price: float
-    tax: float | None = None
-    tags: list[SubItem]
-
-
-@app.put("/items/{item_id}")
-async def update_item(item_id: int, item: Item):
-    results = {"item_id": item_id, "item": item}
-    return results
+@app.get("/users/", response_model=list[UserDefault])
+def get_users():
+    return read_table()
